@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/icon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoStream</title>
+    <script>
+        // Decide whether to load flv.js based on browser capabilities
+        if (window.MediaSource && !/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            const script = document.createElement('script');
+            script.src = "https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js";
+            document.head.appendChild(script);
+        }
+    </script>
+    <style>
+        /* Styles for a clean, mobile-friendly player */
+        body { margin: 0; font-family: sans-serif; background-color: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .video-container { position: relative; width: 90%; max-width: 1200px; background-color: #000; }
+        video { width: 100%; height: 100%; display: block; }
+        #playButton { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background-color: rgba(0, 0, 0, 0.6); border: 2px solid white; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: opacity 0.3s; z-index: 10; }
+        #playButton::after { content: ''; display: block; width: 0; height: 0; border-style: solid; border-width: 20px 0 20px 35px; border-color: transparent transparent transparent white; margin-left: 5px; }
+        .playing #playButton { opacity: 0; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <div class="video-container" id="videoContainer">
+        <video id="videoPlayer" controls muted playsinline></video>
+        <div id="playButton"></div>
+    </div>
+
+    <script>
+        // --- Stream URLs ---
+        // FLV URL for desktops/Android
+        const flvUrl = '/live/movie.flv';
+        // HLS URL for Apple devices (iPhone/iPad) - UPDATED
+        const hlsUrl = '/live/movie.m3u8';
+        // -----------------------
+
+        const videoContainer = document.getElementById('videoContainer');
+        const videoElement = document.getElementById('videoPlayer');
+        const playButton = document.getElementById('playButton');
+        let playerInstance = null;
+
+        // Core function to initialize the player
+        function initPlayer() {
+            // Detect native HLS support (primarily for Apple devices)
+            const isHlsNativelySupported = videoElement.canPlayType('application/vnd.apple.mpegurl');
+
+            if (isHlsNativelySupported) {
+                // --- HLS Mode (for iPhone/iPad) ---
+                console.log('Mode: HLS (Native Support)');
+                videoElement.src = hlsUrl;
+                videoElement.addEventListener('loadedmetadata', () => {
+                    videoElement.play().catch(e => console.error("HLS playback failed", e));
+                });
+
+            } else if (window.flvjs && flvjs.isSupported()) {
+                // --- FLV Mode (for Desktop/Android) ---
+                console.log('Mode: HTTP-FLV (flv.js)');
+                playerInstance = flvjs.createPlayer({
+                    type: 'flv',
+                    isLive: true,
+                    url: flvUrl
+                });
+                playerInstance.attachMediaElement(videoElement);
+                playerInstance.load();
+                playerInstance.play().catch(e => console.error("FLV playback failed", e));
+
+            } else {
+                // --- Unsupported ---
+                console.error('This browser supports neither native HLS nor flv.js');
+                alert('Sorry, your browser is not supported for this live stream.');
+            }
+        }
+
+        // Listen for the play button click
+        playButton.addEventListener('click', () => {
+            if (videoContainer.classList.contains('playing')) return;
+            console.log('User clicked play, initializing...');
+            videoContainer.classList.add('playing');
+            initPlayer();
+        });
+
+    </script>
+<footer style="position: fixed; bottom: 10px; right: 10px; font-size: 12px; color: rgba(255, 255, 255, 0.3); font-family: sans-serif;">
+    developed by zyman
+</footer>
+</body>
+</html>

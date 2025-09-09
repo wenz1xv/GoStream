@@ -1,0 +1,28 @@
+{
+  "title": "GO Stream - by Zyman",
+  "howToUse": "如何使用",
+  "configureStreaming": "请使用以下设置配置您的直播软件（例如 OBS）：",
+  "setServerUrl": "1. 设置服务器URL",
+  "useStreamKey": "3. 输入推流码",
+  "copy": "复制",
+  "copied": "已复制!",
+  "copiedToClipboard": "已复制到剪贴板！",
+  "startToGetKey": "启动后获取推流码",
+  "start": "启动",
+  "stop": "停止",
+  "logs": "日志",
+  "welcomeMessage": "欢迎使用多合一服务器控制面板！",
+  "statusChanged": "[系统] {serviceName} 状态已更改为 {status}",
+  "stoppingServices": "[系统] 正在尝试停止所有服务...",
+  "startingServices": "[系统] 正在尝试启动所有服务...",
+  "setHtmlTitle": "2.(可选) 设置网页标题",
+  "enterNewTitle": "输入新标题",
+  "update": "更新",
+  "titleUpdated": "[应用] HTML页面标题已更新为: {newTitle}",
+  "titleUpdatedToast": "标题已更新为: {newTitle}",
+  "services": {
+    "livego": "LiveGo",
+    "caddy": "caddy",
+    "frpc": "FRPC"
+  }
+}

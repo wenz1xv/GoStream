@@ -1,0 +1,28 @@
+{
+  "title": "GO Stream - by Zyman",
+  "howToUse": "How To Use",
+  "configureStreaming": "Configure your streaming software (e.g., OBS) with the following settings:",
+  "setServerUrl": "1. Set the Server URL",
+  "useStreamKey": "3. Set the Stream Key",
+  "copy": "Copy",
+  "copied": "Copied!",
+  "copiedToClipboard": "Copied to clipboard!",
+  "startToGetKey": "Start to Get Key",
+  "start": "Start",
+  "stop": "Stop",
+  "logs": "Logs",
+  "welcomeMessage": "Welcome to the All-in-One Server Control Panel!",
+  "statusChanged": "[SYSTEM] {serviceName} status changed to {status}",
+  "stoppingServices": "[SYSTEM] Attempting to stop all services...",
+  "startingServices": "[SYSTEM] Attempting to start all services...",
+  "setHtmlTitle": "2.(choose) Set HTML Page Title",
+  "enterNewTitle": "Enter new title",
+  "update": "Update",
+  "titleUpdated": "[App] HTML page title updated to: {newTitle}",
+  "titleUpdatedToast": "Title updated to: {newTitle}",
+  "services": {
+    "livego": "LiveGo",
+    "caddy": "caddy",
+    "frpc": "FRPC"
+  }
+}
