@@ -221,6 +221,21 @@ func (a *App) startFrpc() {
 		return
 	}
 
+	dialog, err := runtime.MessageDialog(a.ctx, runtime.MessageDialogOptions{
+		Type:    runtime.QuestionDialog,
+		Title:   "安全与合规性注意事项",
+		Message: "当您使用内网穿透 (FRP)功能时，您的本地直播服务将被暴露在公共互联网上。这意味着任何人都可以通过您的公网地址访问您的直播内容。\n请确保您直播的内容适合公开传播，并注意保护个人隐私和敏感信息。严格遵守您所在国家及服务所在地的法律法规、行业惯例和社会公共道德。严禁发布任何违反法律法规的内容，包括但不限于：\n\t涉及国家秘密或安全的信息。\n\t任何形式的黑客攻击、网络破坏行为。\n\t妨碍互联网运行安全或侵犯他人合法权益的信息。\n您必须为通过本应用发布的所有内容负全部责任。\n确定要继续吗?",
+	})
+	if err != nil {
+		log.Printf("Error showing dialog: %v", err)
+		return
+	}
+
+	if dialog != "Yes" {
+		log.Println("User chose not to start frpc.")
+		return
+	}
+
 	ctx, cancel := context.WithCancel(context.Background())
 	a.frpcCancel = cancel
 
